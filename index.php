@@ -59,14 +59,14 @@ if (strpos($tresc, "Your plugin successfully compiled!"))
 	echo '
 	<!DOCTYPE html>
 	<head>
-		<title>AMXX / SourceMod Compiler</title>
+		<title>AMXX Compiler</title>
 
 	 	<link rel="stylesheet" href="styles.css">
 
 		<div class="std">
 		<br>
 		<p>
-			<h2 class="header">AMXX and SourceMod Compiler</h2>
+			<h2 class="header">AMXX Compiler</h2>
 		</p>
 		</div>
 		<hr width="800">
@@ -128,7 +128,7 @@ if (strpos($tresc, "Your plugin successfully compiled!"))
 {
 
 echo '
-<!DOCTYPE html>
+ <!DOCTYPE html>
 	<head>
 		<title>AMXX / SourceMod Compiler</title>
 	 	<link rel="stylesheet" href="styles.css">
@@ -148,15 +148,30 @@ echo '
 					Smart Tip: This Compiler Can Only Compile Without External Includes Libraries !
 			</div>
 <b>Plugin Name :</b> <input type="text" name="fname" size="15" value="My_Plugin"><br />
-
-
+<br />
+<b>Import Plugin:</b> <input type="file" id="inputfile"/>
+<br />
 <br><b>Source Code:</b>
 
 
 
 <br />
-
-<center><textarea name="scode" rows="30" cols="100" placeholder="Put code Here!">#include <amxmodx>
+<script>
+ var control = document.getElementById("inputfile");    
+     control.addEventListener("change", function(event){    
+         var reader = new FileReader();        
+         reader.onload = function(event){
+             var contents = event.target.result;        
+               document.getElementById(\'source\').value = contents;            
+         };        
+         reader.onerror = function(event){
+             console.error("File could not be read! Code " + event.target.error.code);
+         };        
+         console.log("Filename: " + control.files[0].name);
+         reader.readAsText(control.files[0]);        
+     }, false);
+</script>
+<center><textarea name="scode" rows="30" cols="100" id="source" placeholder="Put code Here!">#include <amxmodx>
 #include <amxmisc>
 
 #define PLUGIN "New Plug-In"
@@ -169,8 +184,6 @@ public plugin_init() {
 	
 	// Add your code here...
 }</textarea></center><br />
-
-
 <input type="hidden" name="go" value="1">
 <input class="butt" type="submit" value="Compile">
 </br>
@@ -181,8 +194,8 @@ public plugin_init() {
 	</footer>
 </div>
 </body>
+ 
 ';
-
 }
 
 ?>
